@@ -24,8 +24,10 @@ class Player {
 
   update() {
     this.draw()
-    this.position.y += this.velocity.y
 
+    this.position.x += this.velocity.x
+
+    this.position.y += this.velocity.y
 
     if (this.position.y + this.velocity.y + this.height < canvas.height) {
       this.velocity.y += gravity
@@ -44,6 +46,15 @@ canvasContext.fillRect(0, 0, canvas.width, canvas.height,)
 canvasContext.fillStyle = "red"
 canvasContext.fillRect(200, 100, 100, 100)
 
+const keys = {
+  d: {
+    pressed: false,
+  },
+  a: {
+    pressed: false,
+  }
+}
+
 function animate() {
   window.requestAnimationFrame(animate)
   canvasContext.fillStyle = "green"
@@ -51,6 +62,39 @@ function animate() {
 
   player.update()
   player2.update()
+
+  player.velocity.x = 0
+
+  if (keys.d.pressed) {
+    player.velocity.x = 5
+  } else if (keys.a.pressed) {
+    player.velocity.x = -5
+  }
 }
 
 animate()
+
+window.addEventListener("keydown", (e) => {
+  switch (e.key) {
+    case 'd':
+      keys.d.pressed = true
+      break
+    case 'a':
+      keys.a.pressed = true
+      break
+    case 'w':
+      player.velocity.y = -10
+      break
+  }
+})
+
+window.addEventListener("keyup", (e) => {
+  switch (e.key) {
+    case 'd':
+      keys.d.pressed = false
+      break
+    case 'a':
+      keys.a.pressed = false
+      break
+  }
+})
